@@ -1,8 +1,9 @@
 package com.rissins.newswebhook.util.crawling;
 
+import com.rissins.newswebhook.domain.News;
+
 import java.io.IOException;
-import java.util.List;
 
 public interface Crawler {
-    List<String> getWords() throws IOException;
+    News getWords() throws IOException;
 }
