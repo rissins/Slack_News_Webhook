@@ -1,6 +1,7 @@
 package com.rissins.newswebhook.domain;
 
 
+import com.rissins.newswebhook.dto.NewsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,10 @@ public class News {
     String title;
 
     String content;
+
+    public NewsResponse toResponse() {
+        return NewsResponse.builder()
+                .title(title)
+                .content(content).build();
+    }
 }
