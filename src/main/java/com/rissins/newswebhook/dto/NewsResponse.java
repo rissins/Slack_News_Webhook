@@ -10,11 +10,13 @@ public class NewsResponse {
 
     private String title;
     private String content;
+    private String url;
 
     public News toEntity() {
         return News.builder()
                 .title(title)
                 .content(content)
+                .url(url)
                 .build();
     }
 }

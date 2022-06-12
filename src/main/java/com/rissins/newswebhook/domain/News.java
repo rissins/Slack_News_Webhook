@@ -23,9 +23,13 @@ public class News {
 
     String content;
 
+    String url;
+
     public NewsResponse toResponse() {
         return NewsResponse.builder()
                 .title(title)
-                .content(content).build();
+                .content(content)
+                .url(url)
+                .build();
     }
 }
