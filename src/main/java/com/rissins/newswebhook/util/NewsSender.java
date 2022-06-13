@@ -38,25 +38,42 @@ public class NewsSender {
         contentMap.put("type", "mrkdwn");
         contentMap.put("text", newsResponse.getContent());
 
-        JSONObject jsonObject = new JSONObject();
+        Map<String, String> urlMap = new HashMap<>();
+        urlMap.put("type", "mrkdwn");
+        urlMap.put("text", "<"+newsResponse.getUrl()+"|기사보러가기>");
+
+//        JSONObject jsonObject = new JSONObject();
 
         JSONObject titleData = new JSONObject();
         titleData.put("type", "section");
         titleData.put("text", titleMap);
 
+        JSONObject divider = new JSONObject();
+        divider.put("type", "divider");
+
         JSONObject contentData = new JSONObject();
         contentData.put("type", "section");
         contentData.put("text", contentMap);
 
-        jsonObject.putAll(titleData);
-        jsonObject.putAll(contentData);
+        JSONObject urlData = new JSONObject();
+        urlData.put("type", "section");
+        urlData.put("text", urlMap);
+
+//        jsonObject.putAll(titleData);
+//        jsonObject.putAll(contentData);
+//        jsonObject.putAll(divider);
+//        jsonObject.putAll(urlData);
 
         JSONArray jsonArray = new JSONArray();
         jsonArray.add(titleData);
+        jsonArray.add(divider);
         jsonArray.add(contentData);
+        jsonArray.add(urlData);
 
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("blocks", jsonArray);
+
+        System.out.println("jsonObject1.toString() = " + jsonObject1.toString());
 
         return jsonObject1;
     }
