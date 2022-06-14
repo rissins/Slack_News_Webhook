@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableBatchProcessing
 public class NewswebhookApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(NewswebhookApplication.class, args);
 	}
