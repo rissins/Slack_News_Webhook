@@ -35,7 +35,16 @@ public class NewsService {
     public void save() throws IOException {
         for (Crawler crawler : crawlers) {
             News news = crawler.getWords();
-            newsRepository.save(news);
+            if (checkOverLap(news.toResponse())) {
+                log.error("{}은 최근과 중복된 뉴스입니다.", news.toResponse().getUrl());
+                return;
+            } else {
+                newsRepository.save(news);
+            }
         }
+    }
+
+    public boolean checkOverLap(NewsResponse newsResponse) {
+        return getRecentlyNews().getUrl().equals(newsResponse.getUrl());
     }
 }
