@@ -42,8 +42,6 @@ public class NewsSender {
         urlMap.put("type", "mrkdwn");
         urlMap.put("text", "<"+newsResponse.getUrl()+"|기사보러가기>");
 
-//        JSONObject jsonObject = new JSONObject();
-
         JSONObject titleData = new JSONObject();
         titleData.put("type", "section");
         titleData.put("text", titleMap);
@@ -59,11 +57,6 @@ public class NewsSender {
         urlData.put("type", "section");
         urlData.put("text", urlMap);
 
-//        jsonObject.putAll(titleData);
-//        jsonObject.putAll(contentData);
-//        jsonObject.putAll(divider);
-//        jsonObject.putAll(urlData);
-
         JSONArray jsonArray = new JSONArray();
         jsonArray.add(titleData);
         jsonArray.add(divider);
@@ -72,8 +65,6 @@ public class NewsSender {
 
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("blocks", jsonArray);
-
-        System.out.println("jsonObject1.toString() = " + jsonObject1.toString());
 
         return jsonObject1;
     }
