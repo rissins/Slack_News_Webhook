@@ -1,10 +1,12 @@
 package com.rissins.newswebhook.config;
 
 import com.rissins.newswebhook.dto.NewsResponse;
+import com.rissins.newswebhook.exception.NewsDontSaveException;
 import com.rissins.newswebhook.service.NewsService;
 import com.rissins.newswebhook.util.NewsSender;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -29,7 +31,15 @@ public class BatchConfig {
     public Job newsJob() {
         return jobBuilderFactory.get("newsJob")
                 .start(crawlingNews())
-                .next(sendWebhook())
+                    .on("COMPLETED")
+                    .to(sendWebhook())
+                    .on("*")
+                    .end()
+                .from(crawlingNews())
+                    .on("FAILED")
+                    .end()
+                    .build()
+//                .end()
                 .build();
     }
 
@@ -37,7 +47,12 @@ public class BatchConfig {
     public Step crawlingNews() {
         return stepBuilderFactory.get("crawlingNews")
                 .tasklet((contribution, chunkContext) -> {
-                    newsService.save();
+                    try {
+                        newsService.save();
+                        contribution.setExitStatus(ExitStatus.COMPLETED);
+                    } catch (NewsDontSaveException ndse) {
+                        contribution.setExitStatus(ExitStatus.FAILED);
+                    }
                     return RepeatStatus.FINISHED;
                 })
                 .build();
