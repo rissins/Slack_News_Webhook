@@ -21,7 +21,7 @@ public class NewsService {
     private final List<Crawler> crawlers;
     private final NewsRepository newsRepository;
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public NewsResponse getRecentlyNews() {
         log.info("news 카운트 값 = {}", findNewsCount());
 //        News news = newsRepository.findById(findNewsCount()).get();
