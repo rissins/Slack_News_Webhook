@@ -21,14 +21,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
 
     public NewsResponse getRecentlyNews() {
-        log.info("news 카운트 값 = {}", findNewsCount());
-        News news = newsRepository.findById(findNewsCount())
-                .orElseGet(News::new);
-        return news.toResponse();
-    }
-
-    public long findNewsCount() {
-        return newsRepository.count();
+        return findTopByOrderByIdDesc().toResponse();
     }
 
     public void save() throws IOException {
@@ -46,9 +39,14 @@ public class NewsService {
     public boolean checkOverLap(NewsResponse newsResponse) {
         String url = getRecentlyNews().getUrl();
         if (url != null) {
-            return getRecentlyNews().getUrl().equals(newsResponse.getUrl());
+            return url.equals(newsResponse.getUrl());
         } else {
             return false;
         }
     }
+
+    public News findTopByOrderByIdDesc() {
+        return newsRepository.findTopByOrderByIdDesc();
+    }
 }
+
